@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./css/js-select.min.css" />
+
+        <style>
+            body {
+                font-size: 1rem;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+
+        <select name="test" data-multiple="true" data-replace="jselect" data-locale="en" 
+                data-search="true" data-placeholder="Choose your region">
+            <optgroup label="North West">
+                <option value="VDA" data-img="./img/vda.png">Aosta Valley / Vallée d'Aoste</option>
+                <option value="LIG" data-img="./img/lig.png">Liguria</option>
+                <option value="LOM" data-img="./img/lom.png">Lombardy</option>
+                <option value="PIE" data-img="./img/pie.png">Piedmont</option>
+            </optgroup>
+            <optgroup label="North East">
+                <option value="BOL" data-img="./img/bol.png">A.P. Bolzano / Bozen</option>
+                <option value="TRE" data-img="./img/tre.png">A.P. Trento</option>
+                <option value="EMR" data-img="./img/emr.png">Emilia-Romagna</option>
+                <option value="FVG" data-img="./img/fvg.png">Friuli-Venezia Giulia</option>
+                <option value="VEN" data-img="./img/ven.png">Veneto</option>
+            </optgroup>
+            <optgroup label="Centre">
+                <option value="LAZ" data-img="./img/laz.png">Latium</option>
+                <option value="MAR" data-img="./img/mar.png">Marche</option>
+                <option value="TOS" data-img="./img/tos.png">Tuscany</option>
+                <option value="UMB" data-img="./img/umb.png">Umbria</option>
+            </optgroup>
+            <optgroup label="South">
+                <option value="ABR" data-img="./img/abr.png">Abruzzo</option>
+                <option value="PUG" data-img="./img/pug.png">Apulia</option>
+                <option value="BAS" data-img="./img/bas.png">Basilicata</option>
+                <option value="CAL" data-img="./img/cal.png">Calabria</option>
+                <option value="CAM" data-img="./img/cam.png">Campania</option>
+                <option value="MOL" data-img="./img/mol.png">Molise</option>
+            </optgroup>
+            <optgroup label="Islands">
+                <option value="SAR" data-img="./img/sar.png">Sardinia</option>
+                <option value="SIC" data-img="./img/sic.png">Sicily</option>
+            </optgroup>
+        </select>
+
+        <script src="./js-select.min.js"></script>
+    </body>
+</html>
