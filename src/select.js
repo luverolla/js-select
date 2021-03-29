@@ -581,21 +581,17 @@ class Select
         this.focusEvents();
 
         this.options = this.getOptions();
+        this.options.forEach(o => o.selected = false);
 
-        if(this.value.length > 0)
-        {
-            this.value.split(',').forEach(v =>
-            {
-                let op = this.options.find(o => o.value === v);
-                if(op)
-                    op.selected = true;
-            });
-        }
-
-        else
-        {
-            this.options.forEach(op => op.selected = false);
-        }
+		if(this.value.length > 0)
+		{
+			this.value.split(',').forEach(v =>
+			{
+				let op = this.options.find(o => o.value === v);
+				if(op)
+					op.selected = true;
+			});
+		}
 
         this.shown = this.options;
         this.curr = this.options.filter(op => !op.disabled)[0];
