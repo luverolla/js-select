@@ -121,12 +121,6 @@ class Select
     disabled;
 
     /**
-     * Onchange callback
-     * @type {function}
-     */
-    onchange;
-
-    /**
      * Placeholder string
      * @type {string}
     */
@@ -145,7 +139,6 @@ class Select
 	constructor(old)
 	{
         this.isOpen = false;
-        this.onchange = old.onchange;
 		this.locale = S_LOCALES[old.dataset.locale];
         this.multiple = old.dataset.multiple;
 		this.hasSearch = old.dataset.search;
@@ -161,6 +154,27 @@ class Select
             this.placeholder = this.multiple ? this.locale.PLACEHOLDER_MULTI : this.locale.PLACEHOLDER_SINGLE;
 
 	}
+
+    /**
+     * @param {HTMLSelectElement} old 
+     */
+    reload(old)
+    {
+        this.isOpen = false;
+		this.locale = S_LOCALES[old.dataset.locale];
+        this.multiple = old.dataset.multiple;
+		this.hasSearch = old.dataset.search;
+		this.disabled = old.disabled;
+        this.value = old.dataset.value || "";
+        this.old = old;
+
+        this.name = old.name.split('_')[0] || (+new Date()).toString();
+		this.id = `${S_PREFIX}-${this.name}`;
+
+		this.placeholder = old.dataset.placeholder;
+        if(!this.placeholder)
+            this.placeholder = this.multiple ? this.locale.PLACEHOLDER_MULTI : this.locale.PLACEHOLDER_SINGLE;
+    }
 
     /**
      * @param {number} key 
@@ -251,7 +265,7 @@ class Select
                 case "Enter":
                     e.preventDefault();
                     if(this.el.contains(document.activeElement))
-                        this.isOpen ? this.toggleSelect(this.curr.key) : this.open();
+                        this.isOpen ? this.toggleAndClose(this.curr.key) : this.open();
                     break;
 
                 case "Escape":
@@ -419,7 +433,7 @@ class Select
 
         if(!op.disabled)
         {
-            item.onclick = () => this.toggleSelect(op.key);
+            item.onclick = () => this.toggleAndClose(op.key);
         
             item.onmouseenter = () =>
             {
@@ -499,6 +513,18 @@ class Select
 
     /**
      * 
+     * @param {number} key 
+     */
+    toggleAndClose(key)
+    {
+        this.toggleSelect(key);
+
+        if(!this.multiple)
+            this.close();
+    }
+
+    /**
+     * 
      * @param {number} key
      */
     toggleSelect(key)
@@ -532,16 +558,11 @@ class Select
             display.innerHTML = selected.map(op => op.title).join(', ');
 
         hidden.value = selected.map(op => op.value).join(',');
-        var evt = new CustomEvent("qz-change");
+
+        var evt = new CustomEvent(`${S_PREFIX}-change`);
         hidden.dispatchEvent(evt);
 
         this.printOptions(this.shown);
-
-        if(this.onchange)
-            this.onchange();
-
-        if(!this.multiple)
-            this.close();
     }
 
     /**
@@ -577,6 +598,10 @@ class Select
 
     init()
     {
+        let existing = document.querySelector(`#${this.id}`);
+        if(existing)
+            existing.parentElement.removeChild(existing);
+
         this.keyboardEvents();
         this.focusEvents();
 
@@ -627,14 +652,6 @@ class Select
         hidden.disabled = this.disabled;
         hidden.value = this.options.filter(op => op.selected).map(op => op.value).join(',');
 
-        // passing properties
-        let own = ["multiple", "class", "data-qz-search", "data-qz-replace", "data-qz-locale", "name"];
-        [...this.old.attributes].forEach(at =>
-        {
-            if(!own.includes(at.name))
-                hidden.setAttribute(at.name, at.value);
-        });
-
         display.onclick = () =>
         {
             if(this.isOpen)
@@ -642,9 +659,6 @@ class Select
 
             else if(!this.disabled)
                 this.open();
-
-            if(this.old.onclick)
-                this.old.onclick();
         };
 
         this.el.appendChild(display);
@@ -692,21 +706,27 @@ class Select
         this.el.appendChild(menu);
 
         this.printOptions(this.options);
-        this.onchange = this.old.onchange;
-
-        display.addEventListener("mousedown", this.old.onmousedown);
-        display.addEventListener("mouseup", this.old.onmouseup);
 
         this.old.parentElement.insertBefore(this.el, this.old);
-        this.old.parentElement.removeChild(this.old);
 
-        // this.old is NO MORE accessible
+        // avoid conflicts
+        if(this.old.name === this.name)
+            this.old.name = '_' + this.old.name;
+
+        this.old.style.display = "none";
 
         let offTop = this.el.offsetTop,
             winHeight = window.innerHeight;
 
         if(offTop >= .5 * winHeight)
             this.el.classList.add("reverse");
+
+        // if original element changes properties, behave accordingly
+        this.old.addEventListener(`${S_PREFIX}-reload`, () =>
+        {
+            this.reload();
+            this.init();
+        });
 
         // custom event to signal DOM that a Select instance has been created
         let evt = new CustomEvent(`${S_PREFIX}-create`);
@@ -715,7 +735,19 @@ class Select
 }
 
 document.addEventListener("DOMContentLoaded", () =>
+{
+    if(!window[`${S_PREFIX}_ISTANCES`])
+        window[`${S_PREFIX}_ISTANCES`] = {};
+
 	document.querySelectorAll(S_TRIGGER).forEach(el =>
-		new Select(el).init()
-	)
-)
+    {
+        // create
+		let ist = new Select(el);
+
+        // store a reference to element
+        window[ist.name] = ist;
+
+        // init
+        ist.init();
+    })
+})
