@@ -45,7 +45,7 @@ Options for the `select` tag:
 | -------------- | ----------| ----------- |
 | `disabled` | `boolean` | tells if select is disabled |
 | `data-locale` | `string` | lowercase two-letters ISO language code |
-| `data-search` | `boolean` | tells if table should be searchable |
+| `data-search` | `boolean` | tells if select menu should be searchable |
 | `data-placeholder` | `string` | placeholder text |
 | `data-multiple` | `boolean` | tells if user can choose multiple options |
 
