@@ -25,17 +25,17 @@ The component must follow this structure
 ```
 
 ## Referencing
-Once a JSelect has been istantiated, it can be references through the global `window.JSELECT_ISTANCES`.
+Once a JSelect has been istantiated, it can be references through the global `window.JSELECT_INSTANCES`.
 It is a key-value dictionary, so structured:
 
-* the key is the JSelect istance's `name`. It's the value of the `name` attribute in the `<select>` tag, or, if that attribute was empty or not provided, the UNIX timestamp at the time the JSelect was istantiated.
+* the key is the JSelect INSTANCE's `name`. It's the value of the `name` attribute in the `<select>` tag, or, if that attribute was empty or not provided, the UNIX timestamp at the time the JSelect was istantiated.
 
 * the value is the JSelect object.
 
 For example, a JSelect with `name` = `regions`, can be referenced through:
 
 ```javascript
-var regionsSelect = window.JSELECT_ISTANCES["regions"];
+var regionsSelect = window.JSELECT_INSTANCES["regions"];
 ```
 
 ## Options
@@ -63,7 +63,7 @@ Plugin provides custom events to intercept changes either in structure or in val
 
 | event name | description |
 | ---------- | ---------------- |
-| `jselect-create` | let the DOM know that a istance of JSelect has been created |
+| `jselect-create` | let the DOM know that a INSTANCE of JSelect has been created |
 | `jselect-change` | user has changed the value (selected or deselected some options) |
 | `jselect-reload` | component's properties has changed (by JavaScript) thus, component should reload |
 

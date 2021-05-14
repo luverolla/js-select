@@ -736,8 +736,8 @@ class Select
 
 document.addEventListener("DOMContentLoaded", () =>
 {
-    if(!window[`${S_PREFIX}_ISTANCES`])
-        window[`${S_PREFIX}_ISTANCES`] = {};
+    if(!window[`${S_PREFIX}_INSTANCES`])
+        window[`${S_PREFIX}_INSTANCES`] = {};
 
 	document.querySelectorAll(S_TRIGGER).forEach(el =>
     {
