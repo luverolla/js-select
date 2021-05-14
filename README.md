@@ -1,4 +1,4 @@
-# JS Select
+# JS Select 
 
 Pure JavaScript (VanillaJS) dropdown menu, with multiple select and searching support
 
