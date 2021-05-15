@@ -41,22 +41,34 @@ var regionsSelect = window.JSELECT_INSTANCES["regions"];
 ## Options
 Options for the `select` tag:
 
-| attribute name | data type | description |
-| -------------- | ----------| ----------- |
-| `disabled` | `boolean` | tells if select is disabled |
-| `data-locale` | `string` | lowercase two-letters ISO language code |
-| `data-search` | `boolean` | tells if select menu should be searchable |
-| `data-placeholder` | `string` | placeholder text |
-| `data-multiple` | `boolean` | tells if user can choose multiple options |
+| attribute name | data type | description | default |
+| -------------- | ----------| ----------- | ------- |
+| `disabled` | `boolean` | tells if select is disabled | `false` |
+| `data-locale` | `string` | lowercase two-letters ISO language code | `'en'` |
+| `data-search` | `boolean` | tells if select menu should be searchable | `false` |
+| `data-placeholder` | `string` | placeholder text. If not set, a generic message will be displayed (according to locale) | `null` |
+| `data-multiple` | `boolean` | tells if user can choose multiple options | `false` |
 
 Options for the `option` tag:
 
-| attribute name | data type | description |
-| -------------- | --------- | ----------- |
-| `disabled` | `boolean` | tells if option is disabled |
-| `selected` | `boolean` | tells if option is selected |
-| `data-img` | `string` | image's path (shown at the left) |
-| `data-desc` | `string` | option's description (shown at the bottom with muted text color)
+| attribute name | data type | description | default |
+| -------------- | --------- | ----------- | ------- |
+| `disabled` | `boolean` | tells if option is disabled | `false` |
+| `selected` | `boolean` | tells if option is selected | `false` |
+| `data-img` | `string` | image's path (shown at the left) | `null` |
+| `data-desc` | `string` | option's description (shown at the bottom with muted text color) | `null` |
+
+## Keyboard shortcuts
+If focus isn't on the component, then the <kbd>Enter</kbd> key will show the menu.
+Once it's open, the following shortcuts can be used:
+
+| keys | description |
+| ---- | ----------- |
+| <kbd>Enter</kbd> | If multiple, just toggle current option. Else, select current option and close the menu |
+| <kbd>ArrowUp</kbd> | previous non-disabled option becomes current option. If not multiple, select it |
+| <kbd>ArrowDown</kbd> | next non-disabled option becomes current option. If not multiple, select it |
+| <kbd>PageUp</kbd> | first non-disabled option becomes current option. If not multiple, select it |
+| <kbd>PageDown</kbd> | last non-disabled option becomes current option. If not multiple, select it |
 
 ## Events
 Plugin provides custom events to intercept changes either in structure or in value.
